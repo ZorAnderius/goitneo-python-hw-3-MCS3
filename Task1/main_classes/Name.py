@@ -21,7 +21,7 @@ class Name(Field):
         return self.__name
     
     @name.setter
-    def set_name(self, name):
+    def set_name(self, name: str):
         name = self.__formatted_name(name)
         if self.__is_valid(name):
             self.__name = name
@@ -31,7 +31,7 @@ class Name(Field):
     def __is_valid(self, name: str) -> bool:
         return True if re.match(r'\b[a-zA-Z ]+\b', name) else False
     
-    def __formatted_name(self, name):
+    def __formatted_name(self, name: str) -> str:
         res = list(filter(lambda x: x, name.split(' ')))
         return ' '.join(res)
     
