@@ -39,8 +39,7 @@ class Record:
     def find_phone(self, phone: str) -> str or None:
         if list(filter(lambda p: p.value == phone, self.phones)):
             return phone
-            
-    
+        
     def remove_phone(self, phone: str) -> int or None:
         if self.find_phone(phone):
             index = list(map(str, self.phones)).index(phone)
