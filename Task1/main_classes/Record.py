@@ -26,6 +26,9 @@ class Record:
     def __repr__(self) -> str:
         if self.phones:   
             return f"{self.name}: {', '.join(phone.value for phone in self.phones)}"
+        if not self.phones and self.name.name is None:   
+            return 'None'
+        
         return f"{self.name}: Phonebook is empty"
     
     def add_phone(self, phone: str):

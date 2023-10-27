@@ -1,10 +1,13 @@
+import re
+
 from Field import Field
 
 
 class Name(Field):
     def __init__(self, name: str):
         try:
-            if self.is_valid(name):
+            name = self.__formatted_name(name)
+            if self.__is_valid(name):
                 self.__name = name
             else:
                 raise ValueError(f"{name} is invalid name")
@@ -19,13 +22,18 @@ class Name(Field):
     
     @name.setter
     def set_name(self, name):
-        if self.is_valid(name):
+        name = self.__formatted_name(name)
+        if self.__is_valid(name):
             self.__name = name
         else:
             raise ValueError(f"{name} is invalid name")
         
-    def is_valid(self, name: str) -> bool:
-        return True if name.isalpha() else False
+    def __is_valid(self, name: str) -> bool:
+        return True if re.match(r'\b[a-zA-Z ]+\b', name) else False
+    
+    def __formatted_name(self, name):
+        res = list(filter(lambda x: x, name.split(' ')))
+        return ' '.join(res)
     
     def __repr__(self) -> bool:
         if self.__name:
