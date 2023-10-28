@@ -1,11 +1,17 @@
-from Name import Name
-from Phone import Phone
+from colorama import Fore
+
+from .Name import Name
+from .Phone import Phone
 
 
 class Record:
-    def __init__(self, name: str):
+    def __init__(self, name: str, phone: str=''):
         self.__name = Name(name)
-        self.__phones = []
+        if phone:
+            phone = Phone(phone)
+            self.__phones = [phone]
+        else:
+            self.__phones = []
 
     @property
     def name(self) -> Name:
@@ -24,16 +30,23 @@ class Record:
         self.__phones = phones
 
     def __repr__(self) -> str:
-        if self.phones:   
-            return f"Contact name: {self.name}, phones: {'; '.join(phone.value for phone in self.phones)}"
+        if self.phones:  
+            str1 = Fore.YELLOW + "Contact name:   "
+            str2 = Fore.LIGHTMAGENTA_EX + str(self.name)
+            str3 = Fore.YELLOW + "phones: "
+            str4 = Fore.WHITE + '; '.join(phone.value for phone in self.phones)
+            return "{0}{1: >15} {2}\n".format(str1,  str2, (str3 + str4))
         if not self.phones and self.name.name is None:   
             return 'None'
         return f"{self.name}: Phonebook is empty"
 
     def add_phone(self, phone: str):
         new_phone = Phone(phone)
-        if new_phone.phone:
+        if new_phone.phone in self.phones:
+            raise ValueError(Fore.YELLOW + f"Phone {phone} is already in your phonebook. If you want to change phone use 'change' operation")
+        elif new_phone.phone:
             self.__phones.append(new_phone)
+            
 
     def find_phone(self, phone: str) -> str or None:
         if list(filter(lambda p: p.value == phone, self.phones)):

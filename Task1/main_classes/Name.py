@@ -1,20 +1,18 @@
 import re
 
-from Field import Field
+from .Field import Field
 
 
 class Name(Field):
     def __init__(self, name: str):
-        try:
-            name = self.__formatted_name(name)
-            if self.__is_valid(name):
-                self.__name = name
-            else:
-                raise ValueError(f"{name} is invalid name")
-            super().__init__(self.name)
-        except ValueError as e:
+        name = self.__formatted_name(name)
+        if self.__is_valid(name):
+            self.__name = name
+        else:
             self.__name = None
-            print(e)
+            raise ValueError(f"{name} is invalid name")
+        super().__init__(self.name)
+
 
     @property
     def name(self) -> str:
@@ -26,6 +24,7 @@ class Name(Field):
         if self.__is_valid(name):
             self.__name = name
         else:
+            self.__name = None
             raise ValueError(f"{name} is invalid name")
 
     def __is_valid(self, name: str) -> bool:

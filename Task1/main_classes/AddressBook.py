@@ -1,5 +1,5 @@
 from collections import UserDict
-
+from .Record import Record
 
 class AddressBook(UserDict):
     def __init__(self):
@@ -14,7 +14,13 @@ class AddressBook(UserDict):
         self.data = data
 
     def add_record(self, record):
-        self.data[record.name.value] = record
+        if record:
+            if record.name.value in self.data:
+                self.data[record.name.value].add_phone(record.phones[0].value)
+            else:
+                self.data[record.name.value] = record
+        else: 
+            raise ValueError("Invalid record")
 
     def find(self, name):
         if name in self.data:
