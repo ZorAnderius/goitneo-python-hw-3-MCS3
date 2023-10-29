@@ -1,4 +1,4 @@
-<p style='font-weight = 14px; color= 'red'>This bot assistant is a great solution for storing, editing and quickly finding phone numbers of relatives, friends and acquaintances.</p>
+<p>This bot assistant is a great solution for storing, editing and quickly finding phone numbers of relatives, friends and acquaintances.</p>
 <p>Also, this bot allows you to always be aware of the birthdays of relatives, friends and acquaintances.</p>
 
 Main functionality:
