@@ -4,8 +4,8 @@
 <ul>Main functionality:</ul>
 <li>`hello` - to start work just say "hello"</li>
 
-<li><p>`add new_name phone_number` - to add a new contact, where: add - command, new_name - name of new contact, phone_number - phone number</p>
-<p>Example: `add John 1234567890`</p></li>
+<li>`add new_name phone_number` - to add a new contact, where: add - command, new_name - name of new contact, phone_number - phone number
+Example: `add John 1234567890`</li>
 
 <li>`change existing_name old_phone_number new_phone_number` - change the existing contact, where: change - command, existing_name - name of the existing contact, new_phone_number - new phone number
 Example: `change John 1234567890 9876543210`</li>
