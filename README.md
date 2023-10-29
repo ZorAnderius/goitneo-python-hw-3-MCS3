@@ -4,24 +4,18 @@
 Main functionality:
 `hello` - to start work just say "hello"
 
-`add new_name phone_number` - to add a new contact, where: add - command, new_name - name of new contact, phone_number - phone number
+`add new_name phone_number` - to add a new contact, where: `add` - command, `new_name` - name of new contact, `phone_number` - phone number
+ Example: `add John 1234567890`
 
-Example: `add John 1234567890`
+`change existing_name old_phone_number new_phone_number` - change the existing contact, where: `change` - command, `existing_name` - name of the existing contact,`old_phone_number` - old phone number `new_phone_number` - new phone number
+ Example: `change John 1234567890 9876543210`
 
-`change existing_name old_phone_number new_phone_number` - change the existing contact, where: change - command, existing_name - name of the existing contact, new_phone_number - new phone number
+`phone existing_name` - find the phone number by the name of the contact, where: `phone` - command, `existing_name` - the name of the existing contact
+ Example: `phone John`
 
-Example: `change John 1234567890 9876543210`
+`all`- show all existing contacts, where: `all` - command
+ Example: `all`
 
-`phone existing_name` - find the phone number by the name of the contact, where: phone - command, existing_name - the name of the existing contact
-
-Example: `phone John`
-
-`all`- show all existing contacts, where: all - command
-
-Example: `all`
-
-`close` or `exit` - exit the phone book, where: close, exit - commands
-
-Example: `close`
-
-Example: `exit`
+`close` or `exit` - exit the phone book, where: `close`, `exit` - commands
+ ~Example: `close`
+ ~Example: `exit`
