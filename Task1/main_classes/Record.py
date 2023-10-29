@@ -1,17 +1,26 @@
+from datetime import datetime
 from colorama import Fore
 
 from .Name import Name
 from .Phone import Phone
+from .Birthday import Birthday
 
 
 class Record:
-    def __init__(self, name: str, phone: str=''):
+    def __init__(self, name: str, phone: str = '', *birthday: (int, int, int)):
         self.__name = Name(name)
+        
         if phone:
             phone = Phone(phone)
             self.__phones = [phone]
         else:
             self.__phones = []
+            
+        if birthday and len(birthday) == 3:
+            year, month, day = birthday
+            self.__birthday = Birthday(year, month, day)
+        else:
+            self.__birthday = None
 
     @property
     def name(self) -> Name:
@@ -27,18 +36,31 @@ class Record:
 
     @phones.setter
     def set_phones(self, phones: list[Phone]):
-        self.__phones = phones
+        if phones:
+            self.__phones = phones
+        else:
+            self.__phones = []
+
+    @property
+    def birthday(self) -> datetime:
+        return self.__birthday
+
+    def set_bithday(self, birthday: datetime):
+        if birthday:
+            self.__birthday = birthday
+        else:
+            self.__birthday = None
 
     def __repr__(self) -> str:
         if self.phones:  
-            str1 = Fore.YELLOW + "Contact name:   "
+            str1 = Fore.YELLOW + "Contact name: "
             str2 = Fore.LIGHTMAGENTA_EX + str(self.name)
             str3 = Fore.YELLOW + "phones: "
             str4 = Fore.WHITE + '; '.join(phone.value for phone in self.phones)
-            return "{0}{1: >15} {2}\n".format(str1,  str2, (str3 + str4))
+            return "{0}{1: <15} {2}\n".format(str1,  str2, (str3 + str4))
         if not self.phones and self.name.name is None:   
             return 'None'
-        return f"{self.name}: Phonebook is empty"
+        return "{0}{1: <15}: Phonebook is empty\n".format(str1,  str2)
 
     def add_phone(self, phone: str):
         new_phone = Phone(phone)
@@ -66,4 +88,13 @@ class Record:
                 if index >= 0:
                     self.phones.insert(index, new_phone)
             else:
-                print(f"Phone number {old_phone} is not in the {self.name} record list")
+                raise ValueError(f"Phone number {old_phone} is not in the {self.name} record list")
+
+    def add_birthday(self, *birthday: (int, int, int)):
+        if birthday and len(birthday) == 3:
+            year, month, day = birthday
+            if self.__birthday:
+                raise ValueError("You cannot change existing birthday")
+            self.__birthday = Birthday(year, month, day)
+        else: 
+            raise ValueError('Invalid date format')
