@@ -2,7 +2,7 @@
 <p>Also, this bot allows you to always be aware of the birthdays of relatives, friends and acquaintances.</p>
 
 <ul>Main functionality:</ul>
-<li>`hello` - to start work just say "hello"</li>
+<li>\bhello - to start work just say "hello"</li>
 
 <li>`add new_name phone_number` - to add a new contact, where: add - command, new_name - name of new contact, phone_number - phone number
 Example: `add John 1234567890`</li>
