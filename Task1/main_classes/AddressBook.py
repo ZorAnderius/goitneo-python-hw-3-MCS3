@@ -1,6 +1,8 @@
 from collections import UserDict, defaultdict
 from datetime import datetime
-from colorama import Fore
+import json
+
+from .Record import Record
 
 
 class AddressBook(UserDict):
@@ -14,6 +16,20 @@ class AddressBook(UserDict):
     @book.setter
     def set_book(self, data):
         self.data = data
+        
+    def add_book(self, data):
+        for key, record in data.items():
+            name = record['name']
+            phones = record['phones']
+            birthday = record['birthday']
+            new_record = Record(name)
+            if phones and len(phones):
+                new_record.add_phones(phones)
+            if birthday:
+                day, month, year = [int(day) for day in birthday.split('.')]
+                new_record.add_birthday(year, month, day)
+            self.data[key] = new_record
+        return self
 
     def add_record(self, record):
         if record:
@@ -21,7 +37,7 @@ class AddressBook(UserDict):
                 self.data[record.name.value].add_phone(record.phones[0].value)
             else:
                 self.data[record.name.value] = record
-        else: 
+        else:
             raise ValueError("Invalid record")
 
     def find(self, name):
@@ -29,19 +45,48 @@ class AddressBook(UserDict):
             raise ValueError("Phonebook is empty")
         if name in self.data:
             return self.data[name]
-        else: 
+        else:
             raise ValueError("Contact not found")
 
     def delete(self, name):
         if name in self.data:
             del self.data[name]
 
+    def serialize(self):
+        if len(self.data):
+            nested_dict = dict()
+            for key, record in self.data.items():
+                nested_dict[key] = record.serialize()
+
+        return {'data': nested_dict}
+
+    def de_serialize(self, data):
+        new_book = data['data']
+        return new_book
+
+    def save_to_file(self, filename=''):
+        if filename and len(self.data):
+            with open(filename, 'w') as f_write:
+                json.dump(self.serialize(), f_write)
+
+    def read_from_file(self, filename):
+        if filename:
+            with open(filename, 'r') as f_read:
+                try:
+                    res = json.load(f_read)
+                except:
+                    return None
+                if len(res):
+                    res = self.de_serialize(res)
+                return res
+
+
     def __repr__(self):
         string = ''
         for record in self.data.values():
             string += str(record) + '\n'
         return string[:-1:]
-    
+
     def get_birthdays_per_week(self):
         if not len(self.data.values()):
             raise ValueError("Your phonebook is empty")
@@ -51,8 +96,13 @@ class AddressBook(UserDict):
         current_date = datetime.today().date()
         for record in self.data.values():
             name = record.name.value
-            birthday = record.birthday
-            if not name or birthday:
+            if record.birthday:
+                birthday = record.birthday
+            else:
+                birthday = None
+            
+            if not name or birthday is not None:
+                print(birthday)
                 birthday_this_year = birthday.replace_year(year=current_date.year)
                 
                 # replace users year for current year
@@ -85,7 +135,7 @@ class AddressBook(UserDict):
         if not dict_of_users:
             raise ValueError("Your calendar is empty")
         return dict_of_users
-    
+
     def __sorted_users_notes(self, users_birthdays_dict, current_day):
         first_dict = dict()
         second_dict = dict()
@@ -95,8 +145,6 @@ class AddressBook(UserDict):
             else:
                 second_dict[day] = values
         return first_dict | second_dict
-    
-    
 
 
 def replace_birthday_date(date):   
@@ -149,5 +197,3 @@ def replace_birthday_date(date):
         else:
             date = date.replace(day=date.day + 1)
     return date
-
-

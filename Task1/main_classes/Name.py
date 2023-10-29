@@ -13,7 +13,6 @@ class Name(Field):
             raise ValueError(f"{name} is invalid name")
         super().__init__(self.name)
 
-
     @property
     def name(self) -> str:
         return self.__name
@@ -26,6 +25,9 @@ class Name(Field):
         else:
             self.__name = None
             raise ValueError(f"{name} is invalid name")
+
+    def serialize(self):
+        return self.__name
 
     def __is_valid(self, name: str) -> bool:
         return True if re.match(r'\b[a-zA-Z ]+\b', name) else False

@@ -1,4 +1,6 @@
 from colorama import Fore
+from pathlib import Path
+import os.path
 
 from main_classes.AddressBook import AddressBook
 from main_classes.Record import Record
@@ -78,9 +80,14 @@ def parse_input(user_input):
     cmd = cmd.strip().lower()
     return cmd, *args
 
+path = Path('Task1/data.json')
 
 def main():
     book = AddressBook()
+    if os.path.exists(path):
+        new_book = book.read_from_file(path)
+        if new_book:
+            book = book.add_book(new_book)
     while True:
         user_input = input(Fore.CYAN + "Enter a command: ")
         if user_input:
@@ -106,6 +113,8 @@ def main():
                 print(show_week_birthdays(book))
             else:
                 print(Fore.YELLOW + "Invalid command")
+    
+    book.save_to_file(path)
 
 
 if __name__ == '__main__':

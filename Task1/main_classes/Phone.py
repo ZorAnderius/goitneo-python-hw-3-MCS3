@@ -22,6 +22,9 @@ class Phone(Field):
             self.__phone = None
             raise ValueError(f"{phone} is invalid phone number. Length must be 10 numbers")
 
+    def serialize(self):
+        return self.phone
+
     def is_valid(self, phone: str) -> bool:
         return True if len(phone) == 10 and phone.isdigit() else False
 

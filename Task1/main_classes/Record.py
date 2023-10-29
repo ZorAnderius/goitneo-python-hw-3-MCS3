@@ -22,6 +22,13 @@ class Record:
         else:
             self.__birthday = None
 
+    def serialize(self):
+        return {
+            'name': self.name.serialize(),
+            'phones': [phone.serialize() for phone in self.phones],
+            'birthday': self.birthday.serialize() if self.birthday else None
+        }
+
     @property
     def name(self) -> Name:
         return self.__name
@@ -51,7 +58,7 @@ class Record:
         else:
             self.__birthday = None
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         if self.phones:  
             str1 = Fore.YELLOW + "Contact name: "
             str2 = Fore.LIGHTMAGENTA_EX + str(self.name)
@@ -61,6 +68,10 @@ class Record:
         if not self.phones and self.name.name is None:   
             return 'None'
         return "{0}{1: <15}: Phonebook is empty\n".format(str1,  str2)
+
+
+    def add_phones(self, phones):
+        self.__phones = [Phone(phone) for phone in phones]
 
     def add_phone(self, phone: str):
         new_phone = Phone(phone)
